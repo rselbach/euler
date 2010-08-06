@@ -17,4 +17,6 @@ def eratos(limit):
 
 	return primes
 
-print reduce(lambda x,y: x+y, eratos(2000000))
+for i in eratos(400000):
+	print i
+#print reduce(lambda x,y: x+y, eratos(400000))

@@ -1,34 +1,35 @@
 #include <iostream>
+#include <cmath>
 #include <boost/dynamic_bitset.hpp>
 using namespace std;
 
-#define LIMIT 2000000
-
-int main()
+unsigned long long prime_sum(int limit)
 {
-	boost::dynamic_bitset<> sieve(LIMIT);
-	unsigned long long sum = 0;
+	long sieve_size = ceil(limit / 2);
+	boost::dynamic_bitset<> sieve(sieve_size);
+	unsigned long long sum = 2;
 
-	sieve.flip();		// Set all bits to 1 
-	sieve[0].flip();	// Set 0 and 1 to not prime 
-	sieve[1].flip();
+	sieve.flip(); 
 
-	// Check all nos from 2 to 1 million 
-	for (unsigned long i = 2; i < LIMIT; ++i) {
-		if (!sieve[i])	// If marked not prime 
-			continue;	// return to head of loop 
+	for (unsigned int i = 1; i < sieve_size; i ++) {
+		unsigned int n = (i * 2) + 1;
+		if (!sieve[i]) 
+			continue;
 		else
-			// Set all multiples as not prime 
-			for (unsigned long j = 2 * i; j < LIMIT; j += i)
-				sieve[j] = 0;
+			for (unsigned int j = 3 * n; j < limit; j += n) 
+				if (j % 2) sieve[(j - 1) / 2] = 0;
 	}
 
-	for (unsigned long i = 0; i < LIMIT; ++i)
-		if (sieve[i]){	// Add all nos with bit set
-			sum += i;
-		}
+	for (unsigned int i = 1; i < sieve_size; i++)
+		if (sieve[i])
+			sum += (i * 2) + 1;
 
-	cout << "\nThe sum is : " << sum << endl;
+	return sum;
+}
 
+
+int main(void)
+{
+	cout << prime_sum(2000000) << endl;
 	return 0;
 }

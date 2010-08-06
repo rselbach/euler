@@ -33,7 +33,7 @@ def is_prime(n):
 
 def sum_primes():
 	soma = 0
-	for i in range (1, max_primes):
+	for i in range (2, max_primes):
 		if is_prime(i):
 			soma += i
 	return soma
